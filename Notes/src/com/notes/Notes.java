@@ -3,7 +3,7 @@ package com.notes;
 public class Notes {
 	
 	
-/*
+/*   
  
 api gateway holo common entry point jekhane project er context root entry deoya thkbe.. like /pwb
 and ekhne sob diff microservices r context root register kora thkbe like  /milestone,  /report  etc
