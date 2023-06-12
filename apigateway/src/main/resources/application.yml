@@ -17,5 +17,7 @@ spring:
          uri: lb://contact-service
          predicates :
           - Path=/contacts/**
+          
+
             
       

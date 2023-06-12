@@ -1,0 +1,6 @@
+eureka:
+  instance:
+    hostname: localhost
+ 
+server:
+  port: 8000
