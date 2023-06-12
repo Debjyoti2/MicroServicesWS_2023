@@ -1,8 +1,13 @@
-eureka:
-  instance:
-    hostname: localhost
-server:
-  port: 8001
 spring:
+  profiles:
+    active: dev
   application:
-    name: user-service
+    name : user-service
+  config:
+   import: optional:configserver:http://localhost:8006/configServer
+
+management:
+    endpoints:
+     web:
+      exposure:
+       include: "*"

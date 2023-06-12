@@ -1,22 +1,19 @@
-eureka:
-  instance:
-    hostname: localhost
-server:
-  port: 8000
 spring:
   application:
     name: api-gateway
-  cloud:
-    gateway:
-      routes:
-       - id: USER-SERVICE
-         uri: lb://USER-SERVICE
-         predicates:
-          - Path=/users/**   
-       - id: contact-service
-         uri: lb://contact-service
-         predicates :
-          - Path=/contacts/**
+  profiles:
+   active: dev
+  config:
+   import: optional:configserver:http://localhost:8006/configServer
+  
+  
+  management:
+    endpoints:
+     web:
+      exposure:
+       include: "*" 
+ 
+  
           
 
             

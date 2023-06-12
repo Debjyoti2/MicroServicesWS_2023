@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: configServer
+  # profiles native is for local repo
+  #profiles:
+    #active: native
+  profiles:
+   active: git
+     
+# config for local folder yml file or file taken from amazon s3 bucket 
+
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          search-locations: file:///E://CentralConfig
+
+
+# config for git repo
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Debjyoti2/cloudCentralConfig.git
+          clone-on-start : true
+          default-label : main
+
+server:
+ port: 8006
+ servlet: 
+   context-path: /configServer
+
+
+ 

@@ -25,6 +25,7 @@ ApiGateway er services holo :  Zuul Api Gateway, Spring Cloud API gateway.
  contactservice = 8002
  
  apiGateway = 8000
+ configserver = 8005
  
  
  ELK Stack (For Centralize Login Of MicroServices) Details::
