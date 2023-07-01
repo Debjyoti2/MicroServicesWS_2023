@@ -1,66 +1,57 @@
 package com.contact.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "t_contacts_microservices")
 public class Contact {
 	
-	private Long userId;
-	private Long contactId;
+	private Integer userId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer contactId;
 	private String email;
 	private String contactName;
 	
 	
-	public Contact(Long userId, Long contactId, String email, String contactName) {
-		super();
-		this.userId = userId;
-		this.contactId = contactId;
-		this.email = email;
-		this.contactName = contactName;
-	}
-
-
-	public Contact() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
-	public Long getUserId() {
+	
+	
+	public Integer getUserId() {
 		return userId;
 	}
-
-
-	public void setUserId(Long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-
-
-	public Long getContactId() {
+	public Integer getContactId() {
 		return contactId;
 	}
-
-
-	public void setContactId(Long contactId) {
+	public void setContactId(Integer contactId) {
 		this.contactId = contactId;
 	}
-
-
 	public String getEmail() {
 		return email;
 	}
-
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
 	public String getContactName() {
 		return contactName;
 	}
-
-
-	public void setContactName(String contactName) { 
+	public void setContactName(String contactName) {
 		this.contactName = contactName;
 	}
+	@Override
+	public String toString() {
+		return "Contact [userId=" + userId + ", contactId=" + contactId + ", email=" + email + ", contactName="
+				+ contactName + "]";
+	}
+	
+	
+	
 	
 	
 	

@@ -2,61 +2,64 @@ package com.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.user.dao.UserDAO;
 import com.user.entity.Contact;
 import com.user.entity.User;
+import com.user.external.ContactsFeignService;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService{
 
 	@Autowired
-	private RestTemplate restTemplate;
+	private UserDAO dao;
 	
+	@Autowired
+	private ContactsFeignService feignservice;
+
+	@Override
+	@CircuitBreaker(name = "getuserIdCB",fallbackMethod = "getUserById_fallback")
+	public Optional<User> getUserById(Integer userId) {
+		
+		List<Contact> contacts= feignservice.getContactsByUserId(userId);
+		
+		log.info(contacts.toString());
+		
+		User user= dao.findById(userId).get();
+		if(!contacts.isEmpty()) {
+			user.setContacts(contacts);
+		}
+		return Optional.of(user);
+	}
+
 	
+	public Optional<User> getUserById_fallback(Integer userId, Exception ex){
+		
+		User user = new User();
+		user.setUserId(-1);
+		user.setUserName("Default");
+		
+		return Optional.of(user);
+	}
+	
+	@Override
+	public User saveSingleUser(User userobj) {
+		return (User) dao.save(userobj);
+	}
 	
 	
 	@Override
-	public User getUserById(Long userId) {
-		List<User> userList = new ArrayList<>();
-		userList.add(new User(1211L,"Amit","12345"));
-		userList.add(new User(1212L,"Budha","65454"));
-		userList.add(new User(1213L,"Dibya","53656"));
-		
-		
-		User user = userList.stream().filter(e->e.getUserId().equals(userId)).findAny().orElse(null);
-		
-		List<Contact> contacts = this.getContactFromApi(user);
-	    user.setContacts(contacts);
-	    return user;
-		
+	public ArrayList<User> getallusers() {
+		return (ArrayList<User>) dao.findAll();
 	}
-	
-	@HystrixCommand(fallbackMethod = "fallback_getContactFromApi",commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value ="2000")})
-	public List<Contact> getContactFromApi(User user){
-		@SuppressWarnings("unchecked")
-		List<Contact> contacts = this.restTemplate.getForObject("http://CONTACT-SERVICE/contacts/getcontacts/" + user.getUserId(), List.class);
-		return contacts;
-		
-	}
-	
-	
-	public List<Contact> fallback_getContactFromApi() {
-		
-		Contact c = new Contact();
-		c.setContactId(999L);
-		c.setContactName("Hysterix DEfault");
-		c.setEmail("Hysterix Default Emial");
-		c.setUserId(999L);
-		List<Contact> contacts = new ArrayList<>();
-		contacts.add(c);
-		
-		return contacts;
-	}
+
 }

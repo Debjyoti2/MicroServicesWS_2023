@@ -5,13 +5,18 @@ spring:
    active: dev
   config:
    import: optional:configserver:http://localhost:8006/configServer
+  sleuth:
+    reactor:
+      instrumentation-type: decorate-on-each
   
-  
-  management:
-    endpoints:
-     web:
-      exposure:
-       include: "*" 
+management:
+  endpoints:
+   web:
+    exposure:
+     include: "*"
+logging:
+ file:
+  name: E:/CentralLogging/app.log
  
   
           

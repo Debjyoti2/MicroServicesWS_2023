@@ -1,26 +1,43 @@
 package com.contact.service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.contact.dao.ContactRepository;
 import com.contact.entity.Contact;
 
-@Service
-public class ContactServiceImpl implements ContactService{
+import lombok.extern.slf4j.Slf4j;
 
-	private static Logger log = LogManager.getLogger(ContactServiceImpl.class);
+@Service
+@Slf4j
+public class ContactServiceImpl implements ContactService{
+	
+
+	@Autowired
+	private ContactRepository dao;
 	
 	@Override
-	public List<Contact> getContactListOfaUser(Long userId) {
-		List<Contact> contacts = new ArrayList<>();
-		contacts.add(new Contact(1211L,1L,"babu@tcs.com","babu"));
-		contacts.add(new Contact(1211L,1L,"bittu@tcs.com","bittu"));
-		log.fatal("ELK Implementation successfull from CONTACT-SERVICE Microservices");
-		return contacts.stream().filter(e->e.getUserId().equals(userId)).collect(Collectors.toList());
+	public Optional<Contact> getContactsById(Integer contactId) {
+		return dao.findById(contactId);
 	}
+	
+	@Override
+	public Contact saveSingleContact(Contact contact) {
+		return dao.save(contact);
+	}
+	
+	@Override
+	public ArrayList<Contact> fetchallContacts() {
+		return (ArrayList<Contact>) dao.findAll();
+	}
+	
+	@Override
+	public ArrayList<Contact> getContactsByUserId(Integer userId) {
+		log.info("getContactsByUserId ::::::: ");
+		return dao.getContactsByUserId(userId);
+	}
+	
 }

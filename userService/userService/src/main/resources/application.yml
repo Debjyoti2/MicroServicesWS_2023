@@ -5,9 +5,53 @@ spring:
     name : user-service
   config:
    import: optional:configserver:http://localhost:8006/configServer
+  
+  
 
 management:
     endpoints:
      web:
       exposure:
        include: "*"
+    health:
+     circuitbreakers:
+      enabled: true
+     ratelimiters:
+        enabled: true
+    endpoint:
+     health:
+      show-details: always
+     
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+
+
+resilience4j.ratelimiter:
+  configs:
+    instances:
+      registerHealthIndicator: true
+      
+resilience4j:
+   circuitbreaker:
+     instances:
+       getuserIdCB:
+         registerHealthIndicator: true
+         eventConsumerBufferSize: 10
+         failureRateThreshold: 50
+         minimumNumberOfCalls: 5
+         automaticTransitionFromOpenToHalfOpenEnabled: true
+         waitDurationInOpenState: 6s
+         permittedNumberOfCallsInHalfOpenState: 3
+         slidingWindowSize: 10
+         slidingWindowType: COUNT_BASED
+logging:
+ file:
+  name: E:/CentralLogging/app.log
+   
+   
+   
+   
+   

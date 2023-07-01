@@ -11,5 +11,9 @@ management:
      web:
       exposure:
        include: "*"
-   
+logging:
+ file:
+  name: E:/CentralLogging/app.log
+
+ 
    
