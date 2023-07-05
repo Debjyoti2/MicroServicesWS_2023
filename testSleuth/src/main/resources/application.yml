@@ -1,0 +1,16 @@
+server:
+ port: 8080
+spring:
+  application:
+    name: test-sleuth
+  zipkin:
+   enabled: true
+   baseUrl: http://localhost:9411/
+logging:
+ file:
+  name: E:/CentralLogging/testsleuthapp.log
+management:
+    endpoints:
+     web:
+      exposure:
+       include: "*"

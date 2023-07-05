@@ -9,16 +9,19 @@ spring:
     reactor:
       instrumentation-type: decorate-on-each
   
+
 management:
   endpoints:
-   web:
-    exposure:
-     include: "*"
+    web:
+      exposure:
+        include: "*"
+        
+
 logging:
  file:
   name: E:/CentralLogging/app.log
  
-  
+
           
 
             
