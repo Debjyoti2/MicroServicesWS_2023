@@ -47,6 +47,8 @@ public class UserServiceImpl implements UserService{
 		User user = new User();
 		user.setUserId(-1);
 		user.setUserName("Default");
+		log.info("Exception Fallback : getUserById_fallback ::  ");
+		ex.printStackTrace();
 		
 		return Optional.of(user);
 	}

@@ -5,6 +5,8 @@ spring:
     active: dev
   config: 
    import: optional:configserver:http://localhost:8006/configServer
+
+
   
 management:
     endpoints:
@@ -14,6 +16,13 @@ management:
 logging:
  file:
   name: E:/CentralLogging/app.log
+  
+okta:
+  oauth2:
+    issuer: https://dev-56351932.okta.com/oauth2/default
+    audience: api://default
+  
+  
 
  
    

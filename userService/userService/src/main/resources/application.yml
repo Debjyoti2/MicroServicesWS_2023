@@ -6,6 +6,29 @@ spring:
   config:
    import: optional:configserver:http://localhost:8006/configServer
   
+  #OKTA Config with Oauth2 Client
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-56351932.okta.com/oauth2/default
+      client:
+        registration:
+         user-service:
+            provider: okta
+            authorization-grant-type: client_credentials
+            scope: internal
+            client-id: 0oaa8taojhCHSUXHH5d7
+            client-secret: 0gztqnXByfRhNAopdq-JQnCW2nKv2NL9wuZ_DQag
+        provider:
+         okta:
+           issuer-uri: https://dev-56351932.okta.com/oauth2/default
+            
+            
+         
+            
+          
+  
   
 
 management:
@@ -50,8 +73,9 @@ resilience4j:
 logging:
  file:
   name: E:/CentralLogging/app.log
+ 
+
    
    
-   
-   
+
    
