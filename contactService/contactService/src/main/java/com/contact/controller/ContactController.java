@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ public class ContactController {
 	}
 	
 	@GetMapping("/fetchallContacts")
+	@PreAuthorize("hasAuthority('Admin')")
 	public ArrayList<Contact> fetchallContacts(){
 		log.info("fetching all contacts");
 		return contactService.fetchallContacts();
